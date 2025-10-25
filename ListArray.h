@@ -76,15 +76,17 @@ class ListArray : public List<T> {
 
 	//heredados
             void insert(int pos, T e) override {
-                if (pos < 0 || pos >= n){
-                        throw out_of_range ("Fuera de rango"); 
+                // allow inserting at position n (append)
+                if (pos < 0 || pos > n){
+                        throw out_of_range ("Fuera de rango1"); 
                 }
 
                 if (n >= max){
                         resize(max *2); 
                 }
 
-                for(int i = n; i < pos; i--){
+                // shift elements to the right starting from the end
+                for(int i = n; i > pos; i--){
                         arr[i] = arr[i - 1];
                 }
 
@@ -98,7 +100,8 @@ class ListArray : public List<T> {
                 if (n >= max){
                         resize(max *2); 
                 }
-                for(int i = n; i < 0; i--){
+                // shift elements right to make room at index 0
+                for(int i = n; i > 0; i--){
                         arr[i] = arr[i - 1];
                 }
 
@@ -122,13 +125,15 @@ class ListArray : public List<T> {
 
             T remove(int pos) override {
                 if (pos < 0 || pos >= n){
-                        throw out_of_range ("Fuera de rango"); 
+                        throw out_of_range ("Fuera de rango2"); 
                 }
 
                 T element = arr[pos]; 
 
+
+                // shift elements left to fill the gap
                 for(int i = pos; i < n - 1; i++){
-                        arr[i] = arr[i - 1];
+                        arr[i] = arr[i + 1];
                 }
 
                 n--; 
@@ -138,7 +143,7 @@ class ListArray : public List<T> {
 
             T get(int pos) override {
                  if (pos < 0 || pos >= n){
-                        throw out_of_range ("Fuera de rango"); 
+                        throw out_of_range ("Fuera de rango3"); 
                 }
 
                 return arr[pos]; 
@@ -147,7 +152,7 @@ class ListArray : public List<T> {
             int search(T e) override {
                 for(int i = 0; i < n; i++){
                         if(arr[i] == e){
-                                return i + 1; 
+                                return i; 
                         }
                 }
                 return -1; 
